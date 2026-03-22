@@ -45,23 +45,44 @@ Simple-Cache uses a combination of two data structures:
 ### Data Structure Visualization
 
 ```mermaid
-graph LR
-    subgraph HashMap [Hash Map - O(1) Lookup]
+graph TD
+    %% Global Styles
+    classDef mapNode fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:#01579b;
+    classDef listNode fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#e65100;
+    classDef sentinel fill:#eceff1,stroke:#455a64,stroke-width:2px,stroke-dasharray: 5 5;
+
+    subgraph Memory [LRU Cache Structure]
         direction TB
-        key1[Key: "apple"] --> node1
-        key2[Key: "banana"] --> node2
+
+        %% Hash Map Section
+        subgraph HashMap [Hash Map: Quick Access]
+            direction LR
+            Key1["Key: 'apple'"] --- Hash1(( )) --> Pointer1
+            Key2["Key: 'banana'"] --- Hash2(( )) --> Pointer2
+        end
+
+        %% Doubly Linked List Section
+        subgraph DLL [Doubly Linked List: Recency Order]
+            direction LR
+            Head[<b>Head</b><br/>MRU] <--> Node1[<b>Node: 'apple'</b><br/>Value: 100]
+            Node1 <--> Node2[<b>Node: 'banana'</b><br/>Value: 200]
+            Node2 <--> Tail[<b>Tail</b><br/>LRU]
+        end
+
+        %% Connections from Map to List
+        Pointer1 -.->|Points to| Node1
+        Pointer2 -.->|Points to| Node2
     end
 
-    subgraph DoublyLinkedList [Doubly Linked List - O(1) Reordering]
-        direction LR
-        Head[Head Sentinel] <--> node1[Node: "apple"]
-        node1 <--> node2[Node: "banana"]
-        node2 <--> Tail[Tail Sentinel]
-    end
+    %% Applying Classes
+    class Key1,Key2,Pointer1,Pointer2 mapNode;
+    class Node1,Node2 listNode;
+    class Head,Tail sentinel;
 
-    style Head fill:#f9f,stroke:#333,stroke-width:2px
-    style Tail fill:#f9f,stroke:#333,stroke-width:2px
-```
+    %% Annotations
+    note1[O-1 Lookup] -.-> HashMap
+    note2[O-1 Reorder] -.-> DLL
+    ```
 
 ### Methods Explanation
 
