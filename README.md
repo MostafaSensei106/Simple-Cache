@@ -57,8 +57,8 @@ graph TD
         %% Hash Map Section
         subgraph HashMap [Hash Map: Quick Access]
             direction LR
-            Key1["Key: 'apple'"] --- Hash1(( )) --> Pointer1
-            Key2["Key: 'banana'"] --- Hash2(( )) --> Pointer2
+            Key1["Key: 'apple'"] --- Hash1(( ))
+            Key2["Key: 'banana'"] --- Hash2(( ))
         end
 
         %% Doubly Linked List Section
@@ -70,19 +70,15 @@ graph TD
         end
 
         %% Connections from Map to List
-        Pointer1 -.->|Points to| Node1
-        Pointer2 -.->|Points to| Node2
+        Hash1 -.->|Points to| Node1
+        Hash2 -.->|Points to| Node2
     end
 
     %% Applying Classes
-    class Key1,Key2,Pointer1,Pointer2 mapNode;
+    class Key1,Key2 mapNode;
     class Node1,Node2 listNode;
     class Head,Tail sentinel;
-
-    %% Annotations
-    note1[O-1 Lookup] -.-> HashMap
-    note2[O-1 Reorder] -.-> DLL
-    ```
+```
 
 ### Methods Explanation
 
